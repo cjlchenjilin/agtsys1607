@@ -5,14 +5,14 @@
 	<artifactId>agtsys</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	
+
 	<!-- 统一多个jar包的版本号 -->
 	<properties>
 		<spring.version>3.2.4.RELEASE</spring.version>
 		<jackson.version>2.6.7</jackson.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	
+
 	<dependencies>
 		<!-- spring核心jar -->
 		<dependency>
@@ -35,8 +35,8 @@
 			<artifactId>spring-expression</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
-		<!-- spring数据持久化及事务jar  -->
+
+		<!-- spring数据持久化及事务jar -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
@@ -52,7 +52,7 @@
 			<artifactId>spring-orm</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
+
 		<!-- spring mvc jar -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -64,8 +64,8 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
-		<!-- spring aop jar  -->
+
+		<!-- spring aop jar -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
@@ -76,7 +76,7 @@
 			<artifactId>aspectjweaver</artifactId>
 			<version>1.7.2</version>
 		</dependency>
-		
+
 		<!-- mybatis核心及和spring集成包 -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
@@ -88,14 +88,14 @@
 			<artifactId>mybatis-spring</artifactId>
 			<version>1.2.2</version>
 		</dependency>
-		
+
 		<!-- mysql数据库java驱动包 -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.38</version>
 		</dependency>
-		
+
 		<!-- 数据库连接池jar -->
 		<dependency>
 			<groupId>commons-pool</groupId>
@@ -107,7 +107,7 @@
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.4</version>
 		</dependency>
-		
+
 		<!-- ehcache核心及和mybatis集成包 -->
 		<dependency>
 			<groupId>net.sf.ehcache</groupId>
@@ -119,14 +119,14 @@
 			<artifactId>mybatis-ehcache</artifactId>
 			<version>1.0.0</version>
 		</dependency>
-		
-		<!-- spring支持第三方缓存如ehcache等jar  -->
+
+		<!-- spring支持第三方缓存如ehcache等jar -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
+
 		<!-- spring 框架默认集成的jackson包 -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -143,14 +143,14 @@
 			<artifactId>jackson-annotations</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
-		
+
 		<!-- 验证码包 -->
 		<dependency>
 			<groupId>com.github.bingoohuang</groupId>
 			<artifactId>patchca</artifactId>
 			<version>0.0.1</version>
 		</dependency>
-		
+
 		<!-- jstl标签库 -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -162,7 +162,7 @@
 			<artifactId>standard</artifactId>
 			<version>1.1.2</version>
 		</dependency>
-		
+
 		<!-- 日志包 -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -179,7 +179,13 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
 		</dependency>
-		
+		<!-- jmockit测试包 -->
+		<dependency>
+			<groupId>org.jmockit</groupId>
+			<artifactId>jmockit</artifactId>
+			<version>1.28</version>
+			<scope>test</scope>
+		</dependency>
 		<!-- 测试包 -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -203,7 +209,7 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
-	
+
 	<!-- 配置tomcat插件 -->
 	<build>
 		<finalName>agtsys</finalName>
