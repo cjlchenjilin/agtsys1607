@@ -12,8 +12,23 @@
 	
 	<!-- 扫描控制器 -->
 	<context:component-scan base-package="org.agtsys.controller"></context:component-scan>
+	<!-- jsr 303 -->
+	<bean id="validatemessage" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>classpath:CustomerValidateMessage</value>
+			</list>
+		</property>
+		<property name="defaultEncoding" value="utf-8" ></property>
+		<property name="cacheSeconds" value="300"></property>
+	</bean>
+	<bean id="validate" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="providerClass" value="org.hibernate.validator.HibernateValidator"></property>
+		<property name="validationMessageSource" ref="validatemessage"></property>
+	</bean>
     <!-- 使用注解加载默认处理器映射器等 -->
-	<mvc:annotation-driven></mvc:annotation-driven>
+	<mvc:annotation-driven validator="validate"></mvc:annotation-driven>
+	
 	<!-- 资源解析器 -->
 	<bean  class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/jsp/"></property>

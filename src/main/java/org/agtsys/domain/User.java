@@ -1,16 +1,25 @@
 package org.agtsys.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 import org.agtsys.util.MD5;
+import org.agtsys.validate.LoginValidateGroup;
+import org.hibernate.validator.constraints.NotEmpty;
 
-public class User {
+public class User implements Serializable{
     private Long id;
-
+    
+    @NotEmpty(message="{user.usercode.isnull}",groups={LoginValidateGroup.class})
     private String usercode;
 
     private String username;
-
+    
+    @NotEmpty(message="{user.password.isnull}",groups={LoginValidateGroup.class})
+    @Min(value=36,message="{user.password.length}")
     private String userpassword;
 
     private Date creationtime;
@@ -47,7 +56,6 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username == null ? null : username.trim();
-        
     }
 
     public String getUserpassword() {
@@ -55,7 +63,7 @@ public class User {
     }
 
     public void setUserpassword(String userpassword) {
-        this.userpassword = userpassword == null ? null : MD5.md5encode( userpassword.trim());
+        this.userpassword = userpassword == null || userpassword.trim().length()==0? null : MD5.md5encode( userpassword.trim());
     }
 
     public Date getCreationtime() {
