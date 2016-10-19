@@ -1,12 +1,10 @@
 package org.agtsys.controller;
 
 import java.io.OutputStream;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.agtsys.constants.WebConstants;
+import static org.agtsys.constants.WebConstants.*;
 import org.agtsys.service.CaptchcaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,7 +24,7 @@ public class CaptchcaController {
 		OutputStream out = response.getOutputStream();
 		String captchca = captchcaService.generateCaptchca(out);
 		//保存验证码字符串到session中，为了验证使用
-		session.setAttribute(WebConstants.SESSION_CAPTCHCA_KEY, captchca);
+		session.setAttribute(SESSION_CAPTCHCA_KEY, captchca);
 		out.flush();
 		out.close();
 	}
@@ -35,11 +33,11 @@ public class CaptchcaController {
 	@ResponseBody
 	@RequestMapping(value="check",method=RequestMethod.POST)
 	public Object checkCaptchca(String captchca,HttpSession session){
-		String cs = (String)session.getAttribute(WebConstants.SESSION_CAPTCHCA_KEY);
+		String cs = (String)session.getAttribute(SESSION_CAPTCHCA_KEY);
 		if(cs.equalsIgnoreCase(captchca)){
-			return "yes";
+			return OPERATION_MESSAGE_SUCCESS;
 		}else{
-			return "no";
+			return OPERATION_MESSAGE_FAIL;
 		}
 	}
 }

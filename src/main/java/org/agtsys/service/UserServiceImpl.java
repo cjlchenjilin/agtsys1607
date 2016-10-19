@@ -13,4 +13,8 @@ public class UserServiceImpl implements UserService {
 	public User getUserByUser(User user) {
 		return userMapper.getUserByUser(user);
 	}
+	@Override
+	public int updateUser(User user) throws Exception {
+		return userMapper.updateUser(user);
+	}
 }

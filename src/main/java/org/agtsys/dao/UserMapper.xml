@@ -24,6 +24,40 @@
   		</if>
   	</where>
   </select>
+  
+  <update id="updateUser" parameterType="User" >
+    update as_user 
+    <set >
+      <if test="usercode != null" >
+        userCode = #{usercode,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        userName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="userpassword != null" >
+        userPassword = #{userpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="creationtime != null" >
+        creationTime = #{creationtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastlogintime != null" >
+        lastLoginTime = #{lastlogintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdby != null" >
+        createdBy = #{createdby,jdbcType=VARCHAR},
+      </if>
+      <if test="lastupdatetime != null" >
+        lastUpdateTime = #{lastupdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isstart != null" >
+        isStart = #{isstart,jdbcType=INTEGER},
+      </if>
+      <if test="roleid != null" >
+        roleId = #{roleid,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
   <!-- <sql id="Base_Column_List" >
     id, userCode, userName, userPassword, creationTime, lastLoginTime, createdBy, lastUpdateTime, 
     isStart, roleId
@@ -115,39 +149,6 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="org.agtsys.domain.User" >
-    update as_user
-    <set >
-      <if test="usercode != null" >
-        userCode = #{usercode,jdbcType=VARCHAR},
-      </if>
-      <if test="username != null" >
-        userName = #{username,jdbcType=VARCHAR},
-      </if>
-      <if test="userpassword != null" >
-        userPassword = #{userpassword,jdbcType=VARCHAR},
-      </if>
-      <if test="creationtime != null" >
-        creationTime = #{creationtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="lastlogintime != null" >
-        lastLoginTime = #{lastlogintime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createdby != null" >
-        createdBy = #{createdby,jdbcType=VARCHAR},
-      </if>
-      <if test="lastupdatetime != null" >
-        lastUpdateTime = #{lastupdatetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="isstart != null" >
-        isStart = #{isstart,jdbcType=INTEGER},
-      </if>
-      <if test="roleid != null" >
-        roleId = #{roleid,jdbcType=BIGINT},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
   <update id="updateByPrimaryKey" parameterType="org.agtsys.domain.User" >
     update as_user
     set userCode = #{usercode,jdbcType=VARCHAR},

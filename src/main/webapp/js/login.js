@@ -37,7 +37,7 @@ $(function() {
 				data : "captchca="+captchca,
 				dataType:"text",
 				success : function(msg) {
-					if(msg == "yes"){
+					if(msg == "success"){
 						$("#tip").html("<font color='green'>验证码正确</font>");
 					}else{
 						$("#tip").html("<font color='red'>验证码不正确</font>");
