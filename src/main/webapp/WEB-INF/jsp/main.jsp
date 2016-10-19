@@ -39,7 +39,7 @@
 		style="width: 100px;"></div> -->
 	<!-- 左边区域 -->
 	<div data-options="region:'west',title:'导航菜单',split:true"
-		style="width: 150px;">
+		style="width: 180px;">
 		<!-- 树形功能菜单 -->
 		<div>
 			<!-- javascript 实现远程加载菜单数据 -->

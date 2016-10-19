@@ -50,6 +50,16 @@ $(function() {
 	//树形菜单
 	$('#tree').tree({
 		url:'main/tree',
+		onLoadSuccess:function(node,data){
+			//收起所有菜单
+			$('#tree').tree('collapseAll');
+			//展开代理商菜单
+			$.each(data,function(index,node){
+				if(node.text=='代理商管理'){
+					$('#tree').tree('expand',node.target);
+				}
+			});
+		},
 		onClick: function(node){
 			if(node.attributes.url != ""){
 				//如果存在就选择

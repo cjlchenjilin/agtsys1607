@@ -59,24 +59,44 @@
 		</trim>
 	</insert>
 
-	<!-- <sql id="Base_Column_List" > id, roleName, creationTime, createdBy, 
-		lastUpdateTime, isStart </sql> <select id="selectByPrimaryKey" resultMap="BaseResultMap" 
-		parameterType="java.lang.Long" > select <include refid="Base_Column_List" 
-		/> from as_role where id = #{id,jdbcType=BIGINT} </select> <delete id="deleteByPrimaryKey" 
-		parameterType="java.lang.Long" > delete from as_role where id = #{id,jdbcType=BIGINT} 
-		</delete> <insert id="insert" parameterType="org.agtsys.domain.Role" > insert 
-		into as_role (id, roleName, creationTime, createdBy, lastUpdateTime, isStart 
-		) values (#{id,jdbcType=BIGINT}, #{rolename,jdbcType=VARCHAR}, #{creationtime,jdbcType=TIMESTAMP}, 
-		#{createdby,jdbcType=VARCHAR}, #{lastupdatetime,jdbcType=TIMESTAMP}, #{isstart,jdbcType=INTEGER} 
-		) </insert> <update id="updateByPrimaryKeySelective" parameterType="org.agtsys.domain.Role" 
-		> update as_role <set > <if test="rolename != null" > roleName = #{rolename,jdbcType=VARCHAR}, 
-		</if> <if test="creationtime != null" > creationTime = #{creationtime,jdbcType=TIMESTAMP}, 
-		</if> <if test="createdby != null" > createdBy = #{createdby,jdbcType=VARCHAR}, 
-		</if> <if test="lastupdatetime != null" > lastUpdateTime = #{lastupdatetime,jdbcType=TIMESTAMP}, 
-		</if> <if test="isstart != null" > isStart = #{isstart,jdbcType=INTEGER}, 
-		</if> </set> where id = #{id,jdbcType=BIGINT} </update> <update id="updateByPrimaryKey" 
-		parameterType="org.agtsys.domain.Role" > update as_role set roleName = #{rolename,jdbcType=VARCHAR}, 
-		creationTime = #{creationtime,jdbcType=TIMESTAMP}, createdBy = #{createdby,jdbcType=VARCHAR}, 
-		lastUpdateTime = #{lastupdatetime,jdbcType=TIMESTAMP}, isStart = #{isstart,jdbcType=INTEGER} 
-		where id = #{id,jdbcType=BIGINT} </update> -->
+	<update id="updateRole" parameterType="Role">
+		update as_role
+		<set>
+			<if test="rolename != null"> roleName =
+				#{rolename,jdbcType=VARCHAR},
+			</if>
+			<if test="createdby != null"> createdBy =
+				#{createdby,jdbcType=VARCHAR},
+			</if>
+			<if test="lastupdatetime != null"> lastUpdateTime =
+				#{lastupdatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isstart != null"> isStart = #{isstart,jdbcType=INTEGER},</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<delete id="deleteRole" parameterType="Role">
+		delete from as_role where id = #{id,jdbcType=BIGINT}
+	</delete>
+
+		<!-- <sql id="Base_Column_List" > id, roleName, creationTime, createdBy, 
+			lastUpdateTime, isStart </sql> <select id="selectByPrimaryKey" resultMap="BaseResultMap" 
+			parameterType="java.lang.Long" > select <include refid="Base_Column_List" 
+			/> from as_role where id = #{id,jdbcType=BIGINT} </select> </delete> <insert 
+			id="insert" parameterType="org.agtsys.domain.Role" > insert into as_role 
+			(id, roleName, creationTime, createdBy, lastUpdateTime, isStart ) values 
+			(#{id,jdbcType=BIGINT}, #{rolename,jdbcType=VARCHAR}, #{creationtime,jdbcType=TIMESTAMP}, 
+			#{createdby,jdbcType=VARCHAR}, #{lastupdatetime,jdbcType=TIMESTAMP}, #{isstart,jdbcType=INTEGER} 
+			) </insert> <update id="updateByPrimaryKeySelective" parameterType="org.agtsys.domain.Role" 
+			> update as_role <set > <if test="rolename != null" > roleName = #{rolename,jdbcType=VARCHAR}, 
+			</if> <if test="creationtime != null" > creationTime = #{creationtime,jdbcType=TIMESTAMP}, 
+			</if> <if test="createdby != null" > createdBy = #{createdby,jdbcType=VARCHAR}, 
+			</if> <if test="lastupdatetime != null" > lastUpdateTime = #{lastupdatetime,jdbcType=TIMESTAMP}, 
+			</if> <if test="isstart != null" > isStart = #{isstart,jdbcType=INTEGER}, 
+			</if> </set> where id = #{id,jdbcType=BIGINT} </update> <update id="updateByPrimaryKey" 
+			parameterType="org.agtsys.domain.Role" > update as_role set roleName = #{rolename,jdbcType=VARCHAR}, 
+			creationTime = #{creationtime,jdbcType=TIMESTAMP}, createdBy = #{createdby,jdbcType=VARCHAR}, 
+			lastUpdateTime = #{lastupdatetime,jdbcType=TIMESTAMP}, isStart = #{isstart,jdbcType=INTEGER} 
+			where id = #{id,jdbcType=BIGINT} </update> -->
 </mapper>

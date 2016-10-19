@@ -4,7 +4,8 @@
 <script type="text/javascript">
 	$('#role_dg').datagrid({
 		url : 'role/list',
-		columns : [ [ {
+		columns : [ [{field:'check',checkbox:true},
+		    {
 			field : 'id',
 			title : 'id',
 			width : 100,
@@ -58,13 +59,32 @@
 			iconCls : 'icon-edit',
 			text : '修改',
 			handler : function() {
-				alert('help')
+				//获取id getSelected
+				var row = $('#role_dg').datagrid('getSelected');
+				if(row == null){
+					$.messager.alert('提示','您没有选中一行数据!','warning');
+					return;
+				}
+				update_role(row.id);
 			}
 		}, '-', {
 			iconCls : 'icon-remove',
 			text : '删除',
 			handler : function() {
-				alert('help')
+				//获取id getSelected
+				var row = $('#role_dg').datagrid('getSelected');
+				if(row == null){
+					$.messager.alert('提示','您没有选中一行数据!','warning');
+					return;
+				}else{
+					//确认删除对话框
+					$.messager.confirm('删除确认', '您确定要删除该【'+row.rolename+'】角色吗?', function(r){
+						if (r){
+							//删除角色
+							delete_role(row);
+						}
+					});
+				}	
 			}
 		} ]
 	});
@@ -126,4 +146,94 @@
 		});
 	}
 	
+	//修改角色
+	function update_role(id){
+		$('#formbox').dialog({
+			title : '修改角色',
+			width : 300,
+			height : 200,
+			closed : false,
+			cache : false,
+			href : 'role/update/'+id,
+			modal : true,
+			buttons:[{
+				text:'修改',
+				handler:function(){
+					//约束验证
+					if($('#update_role').form('validate')){
+						//做个标记
+						var flag = false;
+						if($('#rolename').val()!=old_rolename){
+							//检查服务器角色名称是否存在
+							flag = check_rolename();							
+						}else{
+							flag = true;
+						}
+						if(flag)
+						{
+								$('#update_role').form('submit',{
+									success: function(msg){
+									     if(msg=="success"){
+									    	 $.messager.alert('提示','修改【'+$('#rolename').val()+'】角色成功!','info');
+									    	 //关闭修改窗口
+									    	 $('#formbox').dialog('close');
+									    	 //刷新列表
+									    	 $('#role_dg').datagrid('reload');
+									     }else{
+									    	 $.messager.alert('提示','修改角色失败!','error');
+									     }
+									}
+								})	
+						}
+					}		
+				}
+			},{
+				text:'取消',
+				handler:function(){
+					$('#formbox').dialog('close');
+				}
+			}]
+		});
+	}
+	//删除角色
+	function delete_role(row){
+		$.ajax({
+			url:'role/delete/'+row.id,
+			async:false,
+			success:function(msg){
+				if(msg=="success"){
+			    	 $.messager.alert('提示','删除【'+row.rolename+'】角色成功!','info');
+			    	 //刷新列表
+			    	 $('#role_dg').datagrid('reload');
+			     }else{
+			    	 $.messager.alert('提示','删除【'+row.rolename+'】角色失败!','error');
+			     }
+			}
+		})
+	}
+	
+	//检查角色名称
+	function check_rolename(){
+		var flag = false;
+		var rolename=$('#rolename').val();
+		//为空直接返回不检查
+		if(rolename==''){
+			return;
+		}
+		$.ajax({
+			url:'role/check',
+			async:false,
+			data:'rolename='+rolename,
+			type:'post',
+			success:function(msg){
+				if(msg=="success"){
+					$('#role_tip').html("<font color='green'>角色名称可以使用</font>");
+					flag=true;
+				}else if(msg=="fail"){
+					$('#role_tip').html("<font color='red'>角色名称已经存在</font>");
+				}
+			}
+		});
+		return flag;
+	}
 </script>

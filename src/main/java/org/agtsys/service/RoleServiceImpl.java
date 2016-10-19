@@ -22,4 +22,12 @@ public class RoleServiceImpl implements RoleService {
 	public int addRole(Role role) throws Exception {
 		return roleMapper.addRole(role);
 	}
+	@Override
+	public int updateRole(Role role) throws Exception {
+		return roleMapper.updateRole(role);
+	}
+	@Override
+	public int deleteRole(Role role) throws Exception {
+		return roleMapper.deleteRole(role);
+	}
 }
