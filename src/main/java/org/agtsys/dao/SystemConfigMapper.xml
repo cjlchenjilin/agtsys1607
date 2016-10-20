@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.agtsys.dao.SystemConfigMapper" >
+  <resultMap id="BaseResultMap" type="org.agtsys.domain.SystemConfig" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="configType" property="configtype" jdbcType="INTEGER" />
+    <result column="configTypeName" property="configtypename" jdbcType="VARCHAR" />
+    <result column="configTypeValue" property="configtypevalue" jdbcType="INTEGER" />
+    <result column="configValue" property="configvalue" jdbcType="VARCHAR" />
+    <result column="isStart" property="isstart" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <select id="selectSystemConfigByConfigType" resultType="SystemConfig" parameterType="SystemConfig" >
+    select id, configType, configTypeName, configTypeValue, configValue, isStart
+    from as_systemconfig
+    <where>
+    	<if test="configtype != null">
+    		configType = #{configtype}
+    	</if>
+    	<if test="configtypename != null">
+    		and configtypename = #{configtypename}
+    	</if>
+    </where>
+  </select>
+  
+   <select id="selectSystemConfigById" resultType="SystemConfig" parameterType="SystemConfig" >
+    select id, configType, configTypeName, configTypeValue, configValue, isStart
+    from as_systemconfig
+    where id = #{id,jdbcType=BIGINT} 
+  </select>
+  
+  <select id="selectMaxTypeValueByConfigType" resultType="int" parameterType="SystemConfig" >
+    select max(configtypevalue) from as_systemconfig where configtype=#{configtype}; 
+  </select>
+  
+  <insert id="insertSystemConfig" parameterType="SystemConfig" >
+    insert into as_systemconfig
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="configtype != null" >
+        configType,
+      </if>
+      <if test="configtypename != null" >
+        configTypeName,
+      </if>
+      <if test="configtypevalue != null" >
+        configTypeValue,
+      </if>
+      <if test="configvalue != null" >
+        configValue,
+      </if>
+      <if test="isstart != null" >
+        isStart,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="configtype != null" >
+        #{configtype,jdbcType=INTEGER},
+      </if>
+      <if test="configtypename != null" >
+        #{configtypename,jdbcType=VARCHAR},
+      </if>
+      <if test="configtypevalue != null" >
+        #{configtypevalue,jdbcType=INTEGER},
+      </if>
+      <if test="configvalue != null" >
+        #{configvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="isstart != null" >
+        #{isstart,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+   <delete id="deleteSystemConfigById" parameterType="SystemConfig" >
+    delete from as_systemconfig
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+<!--  
+ 
+  <insert id="insert" parameterType="org.agtsys.domain.SystemConfig" >
+    insert into as_systemconfig (id, configType, configTypeName, 
+      configTypeValue, configValue, isStart
+      )
+    values (#{id,jdbcType=BIGINT}, #{configtype,jdbcType=INTEGER}, #{configtypename,jdbcType=VARCHAR}, 
+      #{configtypevalue,jdbcType=INTEGER}, #{configvalue,jdbcType=VARCHAR}, #{isstart,jdbcType=INTEGER}
+      )
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="org.agtsys.domain.SystemConfig" >
+    update as_systemconfig
+    <set >
+      <if test="configtype != null" >
+        configType = #{configtype,jdbcType=INTEGER},
+      </if>
+      <if test="configtypename != null" >
+        configTypeName = #{configtypename,jdbcType=VARCHAR},
+      </if>
+      <if test="configtypevalue != null" >
+        configTypeValue = #{configtypevalue,jdbcType=INTEGER},
+      </if>
+      <if test="configvalue != null" >
+        configValue = #{configvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="isstart != null" >
+        isStart = #{isstart,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.agtsys.domain.SystemConfig" >
+    update as_systemconfig
+    set configType = #{configtype,jdbcType=INTEGER},
+      configTypeName = #{configtypename,jdbcType=VARCHAR},
+      configTypeValue = #{configtypevalue,jdbcType=INTEGER},
+      configValue = #{configvalue,jdbcType=VARCHAR},
+      isStart = #{isstart,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update> -->
+</mapper>
