@@ -24,6 +24,28 @@
   		</if>
   	</where>
   </select>
+  <!-- 分页条件查询 -->
+   <select id="getPageUsersByUser" resultType="User">
+  	select as_user.*,as_role.rolename from as_user inner join as_role on as_user.roleId = as_role.id
+  	<if test="user != null">
+	  	<where>
+	  		<if test="user.isstart != null">as_user.isstart=#{user.isstart}</if>
+	  		<if test="user.username != null">and username like CONCAT('%',#{user.username},'%')</if>
+	  		<if test="user.roleid != null">and roleid=#{user.roleid}</if>
+	  	</where>
+  	</if>
+  	<if test="pt !=null">limit	#{pt.limit_begin} ,#{pt.size}</if> 	 
+  </select>
+  
+  <!-- 查询总条数 -->
+   <select id="getCount" resultType="int" parameterType="User">
+  	select count(1) from as_user 
+	  	<where>
+	  		<if test="isstart != null">isstart=#{isstart}</if>
+	  		<if test="username != null">and username like CONCAT('%',#{username},'%')</if>
+	  		<if test="roleid != null">and roleid=#{roleid}</if>
+	  	</where>
+  </select>
   
   <update id="updateUser" parameterType="User" >
     update as_user 

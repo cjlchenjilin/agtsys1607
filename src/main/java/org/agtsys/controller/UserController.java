@@ -8,16 +8,22 @@ import static org.agtsys.constants.WebConstants.SESSION_LOGIN_KEY;
 import static org.agtsys.constants.WebConstants.USER_LOGIN_ERROR;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.agtsys.domain.Role;
 import org.agtsys.domain.User;
+import org.agtsys.service.RoleService;
 import org.agtsys.service.UserService;
+import org.agtsys.util.MySqlPageTool;
 import org.agtsys.validate.LoginValidateGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
@@ -30,6 +36,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class UserController {
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private RoleService roleService;
 
 	// 登录页面
 	@RequestMapping(value = "login", method = RequestMethod.GET)
@@ -96,15 +104,33 @@ public class UserController {
 
 	// 修改密码
 	@RequestMapping(value = "pwd/update", method = RequestMethod.POST)
-	public @ResponseBody String doUpdatePwd(String userpassword,HttpSession session) throws Exception {
+	public @ResponseBody String doUpdatePwd(String userpassword,
+			HttpSession session) throws Exception {
 		User user = (User) session.getAttribute(SESSION_LOGIN_KEY);
 		user.setLastupdatetime(new Date());
 		user.setUserpassword(userpassword);
-		if(userService.updateUser(user)==1){
+		if (userService.updateUser(user) == 1) {
 			return OPERATION_MESSAGE_SUCCESS;
-		}else{
+		} else {
 			return OPERATION_MESSAGE_FAIL;
 		}
+	}
+
+	// 返回用户管理页面
+	@RequestMapping("manage")
+	public String manage(Model model) throws Exception {
+		List<Role> roles = roleService.selectRoles();
+		model.addAttribute("roles", roles);
+		return "user_manage";
+	}
+
+	// 返回用户管理页面
+	@RequestMapping("list")
+	public @ResponseBody Object list(User user,Integer page,Integer rows) throws Exception {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("total", userService.getCount(user));
+		map.put("rows", userService.getPageUsersByUser(user, new MySqlPageTool(page, rows)));
+		return map;
 	}
 
 	// 开发用，上线请删除此方法

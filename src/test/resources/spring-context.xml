@@ -36,5 +36,6 @@
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="org.agtsys.dao"></property>
 	</bean>
-	<context:component-scan base-package="org.agtsys.service"></context:component-scan>
+	<!-- 图像验证码bean -->
+	<bean class="org.agtsys.util.DefaultImageCaptchca"></bean>
 </beans>  

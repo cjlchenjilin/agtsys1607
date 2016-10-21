@@ -4,6 +4,7 @@ import junit.framework.Assert;
 
 import org.agtsys.dao.UserMapper;
 import org.agtsys.domain.User;
+import org.agtsys.util.MySqlPageTool;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -25,5 +26,23 @@ public class UserMapperTest {
 		user.setUserpassword("1");
 		Assert.assertNotNull(userMapper.getUserByUser(user));
 	}
-
+	
+	@Test
+	public void testGetPageUserByNullUserAndNullPageTool() throws Exception {
+		User user = new User();
+		Assert.assertNotNull(userMapper.getPageUsersByUser(null, null));
+	}
+	
+	@Test
+	public void testGetPageUserByNullUserAndPageTool() throws Exception {
+		User user = new User();
+		Assert.assertEquals(5, userMapper.getPageUsersByUser(null, new MySqlPageTool(1, 5)).size());
+	}
+	
+	@Test
+	public void testGetPageUserByUserAndPageTool() throws Exception {
+		User user = new User();
+		user.setUsername("测试");
+		Assert.assertEquals(5, userMapper.getPageUsersByUser(user, new MySqlPageTool(1, 5)).size());
+	}
 }
