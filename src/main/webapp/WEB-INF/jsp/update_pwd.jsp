@@ -41,9 +41,11 @@
 			   		if(msg=="success"){
 			   			$('#pwd_tip').html("<font color='green'>旧密码输入正确</font>");
 			   			flag = true;
-			   		}else{
+			   		}else if(msg=="fail"){
 			   			$('#pwd_tip').html("<font color='red'>旧密码输入不正确</font>");
-			   		}
+			   		}else{
+				    	 $.messager.alert('修改提示',msg,'error');
+				    }
 			   }
 			});
 		return flag;

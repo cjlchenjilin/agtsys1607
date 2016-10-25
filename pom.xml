@@ -174,7 +174,7 @@
 			<artifactId>standard</artifactId>
 			<version>1.1.2</version>
 		</dependency>
-
+		
 		<!-- 日志包 -->
 		<dependency>
 			<groupId>org.slf4j</groupId>

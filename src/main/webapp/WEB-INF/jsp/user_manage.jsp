@@ -97,7 +97,9 @@
 							toolbar : [ {
 								text : '新增',
 								iconCls : 'icon-add',
-								handler : function(){}
+								handler : function(){
+									add_user();
+								}
 							} ],
 							fitColumns : true,//自适应宽度 
 							striped : true,//列表是否有间隔底色
@@ -155,5 +157,70 @@ function search_user(){
 	}
 	$("#user_dg")
 	.datagrid('reload',user);
+}
+
+//新增用户
+function add_user(){
+	$('#formbox').dialog({
+		title : '添加用户',
+		width : 300,
+		height : 400,
+		closed : false,
+		cache : false,
+		href : 'user/add',
+		modal : true,
+		buttons:[{
+			text:'添加',
+			handler:function(){
+				//约束验证
+				if($('#add_user').form('validate')){
+					//检查用户账号是否存在
+					if(check_usercode()){
+						$('#add_user').form('submit',{
+							success: function(msg){
+							     if(msg=="success"){
+							    	 $.messager.alert('提示','添加【'+$('#usercode').val()+'】用户成功!','info');
+							    	 //刷新列表
+							    	 $('#user_dg').datagrid('reload');
+							     }else{
+							    	 $.messager.alert('提示','添加用户失败!','error');
+							     }
+							}
+						})	
+					}	
+				}		
+			}
+		},{
+			text:'取消',
+			handler:function(){
+				$('#formbox').dialog('close');
+			}
+		}]
+	});
+}
+
+//检查用户账号是否存在
+function check_usercode(){
+	var flag = false;
+	var usercode=$('#usercode').val();
+	//为空直接返回不检查
+	if(usercode==''){
+		return;
+	}
+	$.ajax({
+		url:'user/check',
+		async:false,
+		data:'usercode='+usercode,
+		type:'post',
+		success:function(msg){
+			if(msg=="success"){
+				$('#user_add_tip').html("<font color='green'>该账号可以使用</font>");
+				flag=true;
+			}else if(msg=="fail"){
+				$('#user_add_tip').html("<font color='red'>该账号已经存在</font>");
+			}
+		}
+	});
+	return flag;
 }
 </script>

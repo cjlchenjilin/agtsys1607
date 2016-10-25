@@ -24,6 +24,16 @@
   		</if>
   	</where>
   </select>
+  
+   <select id="getAllUser" parameterType="User" resultType="User">
+  	select * from as_user 
+  	<where>
+  		<if test="usercode!=null">
+  			usercode like CONCAT('%',#{usercode},'%')
+  		</if>
+  	</where>
+  </select>
+  
   <!-- 分页条件查询 -->
    <select id="getPageUsersByUser" resultType="User">
   	select as_user.*,as_role.rolename from as_user inner join as_role on as_user.roleId = as_role.id
@@ -47,64 +57,7 @@
 	  	</where>
   </select>
   
-  <update id="updateUser" parameterType="User" >
-    update as_user 
-    <set >
-      <if test="usercode != null" >
-        userCode = #{usercode,jdbcType=VARCHAR},
-      </if>
-      <if test="username != null" >
-        userName = #{username,jdbcType=VARCHAR},
-      </if>
-      <if test="userpassword != null" >
-        userPassword = #{userpassword,jdbcType=VARCHAR},
-      </if>
-      <if test="creationtime != null" >
-        creationTime = #{creationtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="lastlogintime != null" >
-        lastLoginTime = #{lastlogintime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createdby != null" >
-        createdBy = #{createdby,jdbcType=VARCHAR},
-      </if>
-      <if test="lastupdatetime != null" >
-        lastUpdateTime = #{lastupdatetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="isstart != null" >
-        isStart = #{isstart,jdbcType=INTEGER},
-      </if>
-      <if test="roleid != null" >
-        roleId = #{roleid,jdbcType=BIGINT},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <!-- <sql id="Base_Column_List" >
-    id, userCode, userName, userPassword, creationTime, lastLoginTime, createdBy, lastUpdateTime, 
-    isStart, roleId
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from as_user
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from as_user
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" parameterType="org.agtsys.domain.User" >
-    insert into as_user (id, userCode, userName, 
-      userPassword, creationTime, lastLoginTime, 
-      createdBy, lastUpdateTime, isStart, 
-      roleId)
-    values (#{id,jdbcType=BIGINT}, #{usercode,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
-      #{userpassword,jdbcType=VARCHAR}, #{creationtime,jdbcType=TIMESTAMP}, #{lastlogintime,jdbcType=TIMESTAMP}, 
-      #{createdby,jdbcType=VARCHAR}, #{lastupdatetime,jdbcType=TIMESTAMP}, #{isstart,jdbcType=INTEGER}, 
-      #{roleid,jdbcType=BIGINT})
-  </insert>
-  <insert id="insertSelective" parameterType="org.agtsys.domain.User" >
+  <insert id="insertUser" parameterType="User">
     insert into as_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -170,7 +123,69 @@
         #{roleid,jdbcType=BIGINT},
       </if>
     </trim>
+    <selectKey order="AFTER" keyProperty="id" resultType="long" >
+    	select LAST_INSERT_ID() as id
+    </selectKey>
   </insert>
+  
+  <update id="updateUser" parameterType="User" >
+    update as_user 
+    <set >
+      <if test="usercode != null" >
+        userCode = #{usercode,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        userName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="userpassword != null" >
+        userPassword = #{userpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="creationtime != null" >
+        creationTime = #{creationtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastlogintime != null" >
+        lastLoginTime = #{lastlogintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdby != null" >
+        createdBy = #{createdby,jdbcType=VARCHAR},
+      </if>
+      <if test="lastupdatetime != null" >
+        lastUpdateTime = #{lastupdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isstart != null" >
+        isStart = #{isstart,jdbcType=INTEGER},
+      </if>
+      <if test="roleid != null" >
+        roleId = #{roleid,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- <sql id="Base_Column_List" >
+    id, userCode, userName, userPassword, creationTime, lastLoginTime, createdBy, lastUpdateTime, 
+    isStart, roleId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from as_user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from as_user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.agtsys.domain.User" >
+    insert into as_user (id, userCode, userName, 
+      userPassword, creationTime, lastLoginTime, 
+      createdBy, lastUpdateTime, isStart, 
+      roleId)
+    values (#{id,jdbcType=BIGINT}, #{usercode,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+      #{userpassword,jdbcType=VARCHAR}, #{creationtime,jdbcType=TIMESTAMP}, #{lastlogintime,jdbcType=TIMESTAMP}, 
+      #{createdby,jdbcType=VARCHAR}, #{lastupdatetime,jdbcType=TIMESTAMP}, #{isstart,jdbcType=INTEGER}, 
+      #{roleid,jdbcType=BIGINT})
+  </insert>
+  
   <update id="updateByPrimaryKey" parameterType="org.agtsys.domain.User" >
     update as_user
     set userCode = #{usercode,jdbcType=VARCHAR},

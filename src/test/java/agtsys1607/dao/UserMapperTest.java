@@ -1,5 +1,7 @@
 package agtsys1607.dao;
 
+import java.util.Date;
+
 import junit.framework.Assert;
 
 import org.agtsys.dao.UserMapper;
@@ -44,5 +46,18 @@ public class UserMapperTest {
 		User user = new User();
 		user.setUsername("测试");
 		Assert.assertEquals(5, userMapper.getPageUsersByUser(user, new MySqlPageTool(1, 5)).size());
+	}
+	
+	@Test
+	public void testInsertUserGetPK() throws Exception {
+		User user = new User();
+		user.setUsername("测试getkey");
+		user.setUsercode("key6");
+		user.setCreationtime(new Date());
+		user.setCreatedby("admin");
+		user.setRoleid(40L);
+		user.setUserpassword("test1111");
+		userMapper.insertUser(user);
+		Assert.assertEquals(38, user.getId().intValue());
 	}
 }

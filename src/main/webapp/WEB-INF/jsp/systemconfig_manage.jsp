@@ -47,13 +47,16 @@ $('#systemconfig_dg_${configtype}').datagrid({
 		width : 100,
 		align : 'center',
 		formatter : function(value,row,index) {
-			return '<a class="easyui-linkbutton"  href="">修改</a>
-			<c:if test="${configtype ==1 or configtype ==5 or configtype==6 or configtype==7 }">
-			|<a class="easyui-linkbutton" 
-			href="javascript:delete_systemconfig('+value+',\''+row.configtypename+'\')">删除</a>
-			</c:if>';
+			return '<a class="easyui-linkbutton"  href="">修改</a><c:if test="${configtype ==1 or configtype ==5 or configtype==6 or configtype==7 }">|<a class="easyui-linkbutton" href="javascript:delete_systemconfig('+value+',\''+row.configtypename+'\')">删除</a></c:if>';
 		}
 	}] ],
+	//加载数据失败事件
+	onLoadError:function(){
+		$.messager.alert('提示',"加载数据失败！",'error');
+	},
+	onLoadSuccess:function(data){
+		alert(data);
+	},
 	//表格属性
 	singleSelect : true,
 	frozenColumns : true,
@@ -146,8 +149,10 @@ function delete_systemconfig(id,configtypename){
 						    	 $.messager.alert('提示','删除【'+configtypename+'】配置成功!','info');
 						    	 //刷新列表
 						    	 $('#systemconfig_dg_${configtype}').datagrid('reload');
-						     }else{
+						     }else if(msg=="fail"){
 						    	 $.messager.alert('提示','删除【'+configtypename+'】配置失败!','error');
+						     }else{
+						    	 $.messager.alert('提示',msg,'error');
 						     }
 						}
 					});   

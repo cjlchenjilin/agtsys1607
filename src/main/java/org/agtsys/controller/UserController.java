@@ -21,6 +21,7 @@ import org.agtsys.service.RoleService;
 import org.agtsys.service.UserService;
 import org.agtsys.util.MySqlPageTool;
 import org.agtsys.validate.LoginValidateGroup;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,6 +39,9 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	private RoleService roleService;
+
+	// 使用日志
+	private static Logger logger = Logger.getLogger(UserController.class);
 
 	// 登录页面
 	@RequestMapping(value = "login", method = RequestMethod.GET)
@@ -120,17 +124,55 @@ public class UserController {
 	@RequestMapping("manage")
 	public String manage(Model model) throws Exception {
 		List<Role> roles = roleService.selectRoles();
+		if (logger.isDebugEnabled()) {
+			logger.debug("----------加载角色列表: " + roles + "--------------");
+		}
 		model.addAttribute("roles", roles);
 		return "user_manage";
 	}
 
 	// 返回用户管理页面
 	@RequestMapping("list")
-	public @ResponseBody Object list(User user,Integer page,Integer rows) throws Exception {
-		Map<String,Object> map = new HashMap<String,Object>();
+	public @ResponseBody Object list(User user, Integer page, Integer rows)
+			throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("total", userService.getCount(user));
-		map.put("rows", userService.getPageUsersByUser(user, new MySqlPageTool(page, rows)));
+		map.put("rows", userService.getPageUsersByUser(user, new MySqlPageTool(
+				page, rows)));
 		return map;
+	}
+
+	// 返回用户新增页面
+	@RequestMapping(value="add",method=RequestMethod.GET)
+	public String add(Model model) throws Exception {
+		List<Role> roles = roleService.selectRoles();
+		model.addAttribute("roles", roles);
+		return "user_add";
+	}
+
+	// 检查用户登录账号
+	@RequestMapping(value = "check", method = RequestMethod.POST)
+	public @ResponseBody String checkUsercode(String usercode) throws Exception {
+		User user = new User();
+		user.setUsercode(usercode);
+		if (userService.getUserByUser(user) == null) {
+			return OPERATION_MESSAGE_SUCCESS;
+		} else {
+			return OPERATION_MESSAGE_FAIL;
+		}
+	}
+
+	// 修改密码
+	@RequestMapping(value = "add", method = RequestMethod.POST)
+	public @ResponseBody String doAdd(User user,HttpSession session) throws Exception {
+		User session_user = (User) session.getAttribute(SESSION_LOGIN_KEY);
+		user.setCreatedby(session_user.getUsercode());
+		user.setCreationtime(new Date());
+		if (userService.tx_addUser(user) == 1) {
+			return OPERATION_MESSAGE_SUCCESS;
+		} else {
+			return OPERATION_MESSAGE_FAIL;
+		}
 	}
 
 	// 开发用，上线请删除此方法
@@ -138,6 +180,7 @@ public class UserController {
 	public String main(HttpSession session) {
 		// 保存用户到session
 		User user = new User();
+		user.setId(2L);
 		user.setRoleid(1L);
 		user.setUsercode("admin");
 		user.setUserpassword("2");

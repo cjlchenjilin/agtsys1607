@@ -28,8 +28,10 @@ $(function() {
 										   success: function(msg){
 										     if(msg=="success"){
 										    	 $.messager.alert('修改提示','修改密码成功!','info'); 
-										     }else{
+										     }else if(msg=="fail"){
 										    	 $.messager.alert('修改提示','修改密码失败!','error');
+										     }else{
+										    	 $.messager.alert('修改提示',msg,'error');
 										     }
 										   }
 									});
@@ -59,6 +61,9 @@ $(function() {
 					$('#tree').tree('expand',node.target);
 				}
 			});
+		},
+		onLoadError:function(error){
+			$.messager.alert('提示','服务器异常，加载数据失败!','error');
 		},
 		onClick: function(node){
 			if(node.attributes.url != ""){

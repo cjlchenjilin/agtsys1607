@@ -62,4 +62,12 @@ public class Role {
     public void setIsstart(Integer isstart) {
         this.isstart = isstart;
     }
+
+	@Override
+	public String toString() {
+		return "Role [id=" + id + ", rolename=" + rolename + ", creationtime="
+				+ creationtime + ", createdby=" + createdby
+				+ ", lastupdatetime=" + lastupdatetime + ", isstart=" + isstart
+				+ "]";
+	}
 }

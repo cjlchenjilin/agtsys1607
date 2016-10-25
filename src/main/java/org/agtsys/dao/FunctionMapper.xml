@@ -17,6 +17,9 @@
   	select * from as_function where id in (select functionid from as_role_premission where roleid = #{id})
   </select>
   
+  <!-- 查询返回所有的功能，扩展了check字段 -->
+  <select id="getAllFunction" resultType="CheckFunction">select * from as_function</select>
+  
   <!-- 
   <sql id="Base_Column_List" >
     id, functionCode, functionName, creationTime, createdBy, lastUpdateTime, funcUrl, 

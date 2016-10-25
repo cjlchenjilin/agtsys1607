@@ -14,4 +14,7 @@ public interface UserService {
 			MySqlPageTool pt) throws Exception;
 	
 	 Integer getCount(User user)throws Exception;
+	 
+	 public int tx_addUser(User user) throws Exception;
+	 List<User> getAllUser(User user)throws Exception;
 }

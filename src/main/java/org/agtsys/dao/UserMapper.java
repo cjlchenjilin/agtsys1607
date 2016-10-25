@@ -11,4 +11,6 @@ public interface UserMapper {
     throws Exception;
     Integer getCount(User user)throws Exception;
     int updateUser(User user) throws Exception;
+    int insertUser(User user)throws Exception;
+    List<User> getAllUser(User user)throws Exception;
 }

@@ -40,4 +40,21 @@
 	<bean class="org.agtsys.util.DefaultImageCaptchca"></bean>
 	<!-- 扫描组件 -->
 	<context:component-scan base-package="org.agtsys.service"></context:component-scan>
+	
+	<!-- spring的事物管理 -->
+	<bean id="tx_manager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="datasource"></property>
+	</bean>
+	<tx:advice id="tx_advice" transaction-manager="tx_manager">
+		<tx:attributes>
+			<tx:method name="tx_*" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<aop:pointcut expression="execution(* org.agtsys.service..*.*(..))" id="aop_pt"/>
+		<aop:advisor advice-ref="tx_advice" pointcut-ref="aop_pt"/>
+	</aop:config>
+	
+	<!-- 全局异常处理 -->
+	<bean class="org.agtsys.exception.GloableExceptionHandler"></bean>
 </beans>  
