@@ -22,7 +22,11 @@ public class GloableExceptionHandler implements HandlerExceptionResolver {
 			mv.addObject("exception","non-ajax:服务器异常，请联系管理员！");
 		}*/
 		mv.setViewName("non_ajax_exception");
-		mv.addObject("exception","non-ajax:服务器异常，请联系管理员！");
+		if(ex instanceof AccessDenyException){
+			mv.addObject("exception",ex.getMessage());
+		}else{
+			mv.addObject("exception","non-ajax:服务器异常，请联系管理员！");
+		}
 		return mv;
 	}
 }

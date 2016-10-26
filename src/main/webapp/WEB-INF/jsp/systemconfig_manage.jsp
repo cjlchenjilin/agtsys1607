@@ -55,7 +55,7 @@ $('#systemconfig_dg_${configtype}').datagrid({
 		$.messager.alert('提示',"加载数据失败！",'error');
 	},
 	onLoadSuccess:function(data){
-		alert(data);
+		//alert(data);
 	},
 	//表格属性
 	singleSelect : true,

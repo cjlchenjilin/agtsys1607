@@ -175,7 +175,7 @@ public class UserController {
 		}
 	}
 
-	// 开发用，上线请删除此方法
+	/*// 开发用，上线请删除此方法
 	@RequestMapping(value = "main", method = RequestMethod.GET)
 	public String main(HttpSession session) {
 		// 保存用户到session
@@ -187,5 +187,5 @@ public class UserController {
 		user.setCreatedby("admin");
 		session.setAttribute(SESSION_LOGIN_KEY, user);
 		return "main";
-	}
+	}*/
 }

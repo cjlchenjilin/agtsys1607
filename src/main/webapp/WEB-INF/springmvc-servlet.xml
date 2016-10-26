@@ -34,4 +34,16 @@
 		<property name="prefix" value="/WEB-INF/jsp/"></property>
 		<property name="suffix" value=".jsp"></property>
 	</bean>
+	
+	<!-- 拦截器  -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="org.agtsys.intercepter.LoginIntercepter"></bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="org.agtsys.intercepter.PermissionInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
 </beans>
